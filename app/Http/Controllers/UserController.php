@@ -11,4 +11,10 @@ class UserController extends Controller
         $users = User::all();
         return response()->json($users);
     }
+
+    public function test()
+    {
+        $text=[1,2,3,4,5];
+        return response()->json($text);
+    }
 }
