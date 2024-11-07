@@ -17,7 +17,7 @@ use App\Http\Controllers\UserController;
 |
 */
 Route::get('/users', [UserController::class, 'index']);
-Route::get('/test', [UserController::class, 'test']);
+Route::get('/ai-tools', [UserController::class, 'test']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
