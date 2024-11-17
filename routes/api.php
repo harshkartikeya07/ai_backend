@@ -2,6 +2,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AiToolController;
 
 
  
@@ -17,10 +18,14 @@ use App\Http\Controllers\UserController;
 |
 */
 Route::get('/users', [UserController::class, 'index']);
-Route::get('/ai-tools', [UserController::class, 'test']);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('/ai-tools', [AiToolController::class, 'index']); // Fetch all records
+Route::get('/ai-tools/category/{categoryId}', [AiToolController::class, 'getByCategory']); // Fetch based on category
 
  
