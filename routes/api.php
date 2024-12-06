@@ -26,6 +26,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/ai-tools', [AiToolController::class, 'index']); // Fetch all records
+Route::get('/ai-tools/{id}', [AiToolController::class, 'getAiToolById']); // Fetch all records
 Route::get('/ai-tools/category/{categoryId}', [AiToolController::class, 'getByCategory']); // Fetch based on category
 
- 
+Route::put('/ai-tools/update/{id}', [AiToolController::class, 'updateTool']);
+Route::put('/ai-tools/update/{id}', [AiToolController::class, 'updateCategory']);
+
+Route::delete('/ai-tools/tool/delete', [AiToolsController::class, 'deleteTool']);
+Route::delete('/ai-tools/category/delete', [AiToolsController::class, 'deleteCategory']);

@@ -3,10 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\AiTool;
+ 
+use App\Http\Controllers\services\AiToolsListService;
+
 
 class AiToolController extends Controller
 {
+    protected $AiToolsListService;
+
+    /**
+     * Inject AiToolsListService into the controller.
+     *
+     * @param AiToolsListService $AiToolsListService
+     */
+    public function __construct(AiToolsListService $AiToolsListService)
+    {
+        $this->AiToolsListService = $AiToolsListService;
+    }
     /**
      * Fetch all AI tools.
      *
@@ -14,11 +27,8 @@ class AiToolController extends Controller
      */
     public function index()
     {
-        // Get all AI tools
-        $aiTools = AiTool::all();
-
-        // Return the AI tools as a JSON response
-        return response()->json($aiTools);
+        $AiToolsList = $this->AiToolsListService->listAiTools();
+        return response()->json($AiToolsList);
     }
 
     /**
@@ -27,17 +37,56 @@ class AiToolController extends Controller
      * @param  int  $categoryId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getByCategory($categoryId)
+    public function getByCategory($id)
     {
-        // Get AI tools by category ID
-        $aiTools = AiTool::where('category_id', $categoryId)->get();
-
-        // Check if there are any AI tools in the specified category
-        if ($aiTools->isEmpty()) {
-            return response()->json(['message' => 'No AI tools found in this category'], 404);
-        }
-
-        // Return the AI tools as a JSON response
+        $aiTools = $this->AiToolsListService->aiToolsByCategory($id);
         return response()->json($aiTools);
     }
+    public function getAiToolById($id)
+    {
+        $aiTool = $this->AiToolsListService->getByTool($id);
+        return response()->json($aiTool);
+    }
+
+
+    public function updateTool(Request $request, $id)
+    {
+        // dd($request);
+        $updateTool = $this->AiToolsListService->update_tool($request, $id);
+
+        return response()->json($updateTool);
+    }
+
+    public function updateCategory(Request $request, $id)
+    {
+        // dd($request);
+        $updateTool = $this->AiToolsListService->updateCat($request, $id);
+
+        return response()->json($updateTool);
+    }
+
+
+    public function deleteTool(Request $request)
+    {
+
+        $updateTool = $this->AiToolsListService->delete_tool($id);
+
+        return response()->json($updateTool);
+        // Find the category by ID
+       
+
+    }
+
+    public function deleteCategory(Request $request)
+    {
+
+        $updateTool = $this->AiToolsListService->deleteCat($id);
+
+        return response()->json($updateTool);
+        // Find the category by ID
+       
+
+    }
+
+    
 }
